@@ -2,12 +2,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.*;
-import static java.nio.charset.StandardCharsets.*;
-import sun.misc.IOUtils;
 
 public class Extract {
 
@@ -23,7 +19,7 @@ public class Extract {
         }
     }
 
-    public static HashMap extractor(String url) {
+    public static HashMap<String, String> extractor(String url) {
         HashMap<String, String> hashMap = new HashMap<String, String>();
 
         System.out.println(url);
