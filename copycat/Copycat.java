@@ -1,13 +1,14 @@
 package copycat;
 
-import java.io.IOException;
-import java.util.List;
-
 /**
  * Copycat
  */
 
+import java.io.IOException;
+import java.util.List;
+
 public class Copycat {
+
     String targetUrl = null;
     String analyzeLink = "https://mate09.y2mate.com/analyze/ajax";
     String audioLink = "https://mate09.y2mate.com/convert";
@@ -19,16 +20,10 @@ public class Copycat {
 
     private String audio() {
         String outputUrl = null;
-        String genericId = null;
-        String videoId = null;
         String[] analyzeLink = analyzeLink();
         if (analyzeLink != null) {
-            genericId = analyzeLink[0];
-            videoId = analyzeLink[1];
-            System.out.println(genericId + " " + videoId);
-            outputUrl = getAudioLink(genericId, videoId);
+            outputUrl = getAudioLink(analyzeLink);
         }
-
         return outputUrl;
     }
 
@@ -60,8 +55,10 @@ public class Copycat {
         return output;
     }
 
-    private String getAudioLink(String _id, String v_id) {
+    private String getAudioLink(String[] analyzeIds) {
         String output = null;
+        String _id = analyzeIds[0];
+        String v_id = analyzeIds[1];
         try {
             MultipartUtility multipart = new MultipartUtility(this.audioLink, this.charset);
             multipart.addHeaderField("User-Agent", "copycat");
