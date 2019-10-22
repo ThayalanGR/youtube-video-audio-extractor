@@ -11,6 +11,7 @@ public class Copycat {
     String targetUrl = null;
     String analyzeLink = "https://mate09.y2mate.com/analyze/ajax";
     String audioLink = "https://mate09.y2mate.com/convert";
+    String charset = "UTF-8";
 
     Copycat(String url) {
         this.targetUrl = url;
@@ -25,18 +26,16 @@ public class Copycat {
             genericId = analyzeLink[0];
             videoId = analyzeLink[1];
             System.out.println(genericId + " " + videoId);
-
-            return outputUrl;
-        } else {
-            return null;
+            outputUrl = getAudioLink(genericId, videoId);
         }
+
+        return outputUrl;
     }
 
     private String[] analyzeLink() {
         String[] output = new String[2];
-        String charset = "UTF-8";
         try {
-            MultipartUtility multipart = new MultipartUtility(this.analyzeLink, charset);
+            MultipartUtility multipart = new MultipartUtility(this.analyzeLink, this.charset);
 
             multipart.addHeaderField("User-Agent", "copycat");
 
@@ -45,7 +44,6 @@ public class Copycat {
 
             List<String> response = multipart.finish();
 
-            System.out.println("SERVER REPLIED:");
             String tempResponse = null;
             for (String line : response) {
                 tempResponse += line;
@@ -62,8 +60,35 @@ public class Copycat {
         return output;
     }
 
+    private String getAudioLink(String _id, String v_id) {
+        String output = null;
+        try {
+            MultipartUtility multipart = new MultipartUtility(this.audioLink, this.charset);
+            multipart.addHeaderField("User-Agent", "copycat");
+            multipart.addFormField("type", "youtube");
+            multipart.addFormField("_id", _id);
+            multipart.addFormField("v_id", v_id);
+            multipart.addFormField("ajax", "1");
+            multipart.addFormField("ftype", "mp3");
+            multipart.addFormField("fquality", "128");
+            List<String> response = multipart.finish();
+            String tempResponse = null;
+            for (String line : response) {
+                tempResponse += line;
+            }
+            tempResponse = tempResponse.replace("\\r", "");
+            tempResponse = tempResponse.replace("\\n", "");
+            tempResponse = tempResponse.replace("\\", "");
+            output = tempResponse.substring(tempResponse.indexOf("<a href=") + 9,
+                    tempResponse.indexOf("\" rel=\"nofollow\""));
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+        return output;
+    }
+
     public static void main(String[] args) {
-        Copycat cc = new Copycat("https://www.youtube.com/watch?v=rfmNAXEJbDE");
+        Copycat cc = new Copycat("https://www.youtube.com/watch?v=0D22PcN9Wds");
         System.out.println(cc.audio());
     }
 

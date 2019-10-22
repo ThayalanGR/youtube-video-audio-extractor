@@ -2,7 +2,6 @@
 
 > Java implementation of custom YouTube multiple video and audio file downloadable link extractor.
 
-
 ---
 
 **process y2mate to grab audio link**
@@ -33,7 +32,7 @@ process : https://mate09.y2mate.com/convert : link
 
 body:-
     type: youtube
-    \_id: \_id
+     _id: _id
     v_id: v_id
     ajax: 1
     ftype: mp3
