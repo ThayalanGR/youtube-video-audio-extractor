@@ -14,9 +14,9 @@ process : https://mate09.y2mate.com/analyze/ajax : link
 
 formdata :-
 
-    url:https://www.youtube.com/watch?v=jr3XJr4FCYk
+    url : https://www.youtube.com/watch?v=jr3XJr4FCYk
 
-    ajax:1
+    ajax : 1
 
 ```
 
